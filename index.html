@@ -496,6 +496,10 @@ output+=`
 📋 Copy
 </button>
 
+<button class="favorite" onclick="favoriteName(this)">
+❤️ Favorite
+</button>
+
 </div>
 `;
 
@@ -634,6 +638,55 @@ function searchNames(){
     });
 }
 
+function favoriteName(button){
+
+    let name = button.parentElement
+        .querySelector(".nickname")
+        .innerText;
+
+    let favorites =
+        JSON.parse(localStorage.getItem("favorites")) || [];
+
+    if(!favorites.includes(name)){
+        favorites.push(name);
+        localStorage.setItem(
+            "favorites",
+            JSON.stringify(favorites)
+        );
+
+        button.innerText = "❤️ Saved!";
+    }else{
+        button.innerText = "✅ Already Saved";
+    }
+
+    showFavorites();
+}
+
+function showFavorites(){
+
+    let favorites =
+        JSON.parse(localStorage.getItem("favorites")) || [];
+
+    let box = document.getElementById("favorites");
+
+    if(!box) return;
+
+    if(favorites.length === 0){
+        box.innerHTML = "No favorite names yet ❤️";
+        return;
+    }
+
+    box.innerHTML = favorites.map(name => `
+        <div class="name-card">
+            <span class="nickname">${name}</span>
+            <button class="copy" onclick="navigator.clipboard.writeText('${name}')">
+                📋 Copy
+            </button>
+        </div>
+    `).join("");
+}
+
+showFavorites();
   
 </script>
 
