@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NickStyle - Ultimate Nickname Generator</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:radial-gradient(circle at top,#292052,#090912 55%,#050507);
+color:#fff;
+min-height:100vh;
+}
+
+header{
+padding:22px 15px;
+text-align:center;
+background:rgba(8,8,18,.85);
+border-bottom:1px solid #35304d;
+position:sticky;
+top:0;
+z-index:10;
+backdrop-filter:blur(10px);
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+color:#b45cff;
+text-shadow:0 0 20px #8b5cf6;
+}
+
+header p{color:#aaa;margin-top:7px}
+
+.hero{
+text-align:center;
+padding:55px 20px 30px;
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:14px;
+}
+
+.hero h1 span{color:#b45cff}
+
+.hero p{
+color:#aaa;
+font-size:17px;
+}
+
+.generator{
+max-width:800px;
+margin:20px auto;
+padding:25px;
+background:rgba(255,255,255,.06);
+border:1px solid #3c3755;
+border-radius:20px;
+box-shadow:0 0 35px rgba(139,92,246,.15);
+}
+
+.inputbox{
+display:flex;
+gap:10px;
+}
+
+input{
+flex:1;
+padding:16px;
+border-radius:11px;
+border:1px solid #45405d;
+background:#11111b;
+color:#fff;
+font-size:17px;
+outline:none;
+}
+
+input:focus{
+border-color:#a855f7;
+box-shadow:0 0 15px #8b5cf655;
+}
+
+button{
+border:0;
+border-radius:10px;
+padding:13px 20px;
+background:linear-gradient(135deg,#8b5cf6,#d946ef);
+color:#fff;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 0 18px #a855f777;
+}
+
+.random{
+margin-top:12px;
+width:100%;
+background:linear-gradient(135deg,#f97316,#ef4444);
+}
+
+.section{
+max-width:1050px;
+margin:35px auto;
+padding:0 20px;
+}
+
+.section h2{
+margin-bottom:16px;
+}
+
+.categories{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.category{
+padding:10px 15px;
+border:1px solid #3b3653;
+border-radius:22px;
+background:#11111b;
+color:#ccc;
+cursor:pointer;
+}
+
+.category:hover,.category.active{
+background:#8b5cf6;
+color:#fff;
+}
+
+.results{
+margin-top:20px;
+}
+
+.name-card{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+padding:16px;
+margin:10px 0;
+border-radius:13px;
+background:#11111b;
+border:1px solid #2f2a45;
+transition:.2s;
+}
+
+.name-card:hover{
+border-color:#9b5cff;
+transform:translateX(3px);
+}
+
+.nickname{
+font-size:21px;
+word-break:break-word;
+}
+
+.copy{
+padding:9px 14px;
+font-size:14px;
+white-space:nowrap;
+}
+
+.letters{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+}
+
+.letter{
+width:42px;
+height:42px;
+display:flex;
+align-items:center;
+justify-content:center;
+border:1px solid #39344f;
+background:#11111b;
+border-radius:9px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.letter:hover{
+background:#8b5cf6;
+}
+
+.library{
+display:none;
+margin-top:20px;
+}
+
+.library.show{
+display:block;
+}
+
+.library-card{
+display:inline-block;
+margin:5px;
+padding:9px 13px;
+border-radius:9px;
+background:#181522;
+border:1px solid #37304c;
+color:#ddd;
+}
+
+.empty{
+color:#888;
+padding:20px 0;
+}
+
+footer{
+margin-top:50px;
+padding:25px;
+text-align:center;
+color:#777;
+border-top:1px solid #252237;
+}
+
+@media(max-width:600px){
+
+.hero h1{font-size:34px}
+
+.inputbox{flex-direction:column}
+
+.name-card{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.copy{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">✦ NickStyle</div>
+<p>Ultimate Stylish Name Generator</p>
+</header>
+
+<section class="hero">
+
+<h1>Create <span>Legendary</span> Names</h1>
+
+<p>
+Turn any name or word into stylish, cool and unique names.
+</p>
+
+</section>
+
+<section class="generator">
+
+<div class="inputbox">
+
+<input
+id="nameInput"
+type="text"
+placeholder="Enter any name or word..."
+onkeydown="if(event.key==='Enter') generateNames()"
+>
+
+<button onclick="generateNames()">Generate</button>
+
+</div>
+
+<button class="random" onclick="randomName()">
+🎲 Random Legendary Name
+</button>
+
+</section>
+
+<section class="section">
+
+<h2>🔥 Categories</h2>
+
+<div class="categories">
+
+<div class="category active" onclick="setCategory('all',this)">All</div>
+
+<div class="category" onclick="setCategory('legendary',this)">
+👑 Legendary
+</div>
+
+<div class="category" onclick="setCategory('gaming',this)">
+🎮 Gaming
+</div>
+
+<div class="category" onclick="setCategory('attitude',this)">
+😈 Attitude
+</div>
+
+<div class="category" onclick="setCategory('cool',this)">
+😎 Cool
+</div>
+
+<div class="category" onclick="setCategory('love',this)">
+❤️ Love
+</div>
+
+<div class="category" onclick="setCategory('vip',this)">
+💎 VIP
+</div>
+
+<div class="category" onclick="setCategory('fancy',this)">
+✨ Fancy
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>🔤 A–Z Name Library</h2>
+
+<div class="letters" id="letters"></div>
+
+<div class="library" id="library"></div>
+
+</section>
+
+<section class="section">
+
+<h2>✨ Generated Names</h2>
+
+<div class="results" id="results">
+<div class="empty">
+Enter a name above and press Generate.
+</div>
+</div>
+
+</section>
+
+<footer>
+© 2026 NickStyle — Stylish Name Generator
+</footer>
+
+<script>
+
+let currentCategory="all";
+
+const styles={
+
+all:[
+"꧁༺ {name} ༻꧂",
+"『 {name} 』",
+"亗 {name} 亗",
+"乂 {name} 乂",
+"★彡 {name} 彡★",
+"♛ {name} ♛",
+"ツ {name} ツ",
+"×͜× {name}",
+"么 {name} 么",
+"༒ {name} ༒",
+"⚡ {name} ⚡",
+"꧁ {name} ꧂",
+"༺ {name} ༻",
+"『ᴾᴿᴼ』 {name}",
+"☠ {name} ☠",
+"★ {name} ★",
+"✦ {name} ✦",
+"♕ {name} ♕",
+"〆 {name} 〆",
+"メ {name} メ"
+],
+
+legendary:[
+"꧁༺👑 {name} 👑༻꧂",
+"♛『 {name} 』♛",
+"👑 亗 {name} 亗 👑",
+"༺⚡ {name} ⚡༻",
+"꧁♛ {name} ♛꧂",
+"👑『 {name} 』👑",
+"༒👑 {name} 👑༒",
+"★彡👑 {name} 👑彡★"
+],
+
+gaming:[
+"乂🎮 {name} 🎮乂",
+"『ᴳᴬᴹᴱᴿ』 {name}",
+"⚔️ {name} ⚔️",
+"亗 {name} Gaming 亗",
+"『PRO』{name}",
+"乂 {name} 乂",
+"⚡『{name}』⚡",
+"『LEGEND』 {name}"
+],
+
+attitude:[
+"😈『 {name} 』😈",
+"☠ {name} ☠",
+"༒☬ {name} ☬༒",
+"乂😈 {name} 😈乂",
+"『BOSS』 {name}",
+"⚡ {name} ⚡",
+"亗 {name} 亗",
+"☠️ {name} ☠️"
+],
+
+cool:[
+"『😎 {name} 😎』",
+"★ {name} ★",
+"ツ {name} ツ",
+"⚡ {name} ⚡",
+"✦ {name} ✦",
+"『 {name} 』",
+"么 {name} 么",
+"〆 {name} 〆"
+],
+
+love:[
+"♡ {name} ♡",
+"❤️『 {name} 』❤️",
+"♥ {name} ♥",
+"💖 {name} 💖",
+"💗 {name} 💗",
+"『LOVE』 {name}",
+"💕 {name} 💕",
+"♡彡 {name} 彡♡"
+],
+
+vip:[
+"💎 VIP {name} 💎",
+"♛VIP♛ {name}",
+"👑 {name} 👑",
+"༺💎 {name} 💎༻",
+"『VIP』 {name}",
+"💎『 {name} 』💎",
+"♕ VIP {name} ♕",
+"👑VIP {name}👑"
+],
+
+fancy:[
+"꧁ {name} ꧂",
+"『 {name} 』",
+"༺ {name} ༻",
+"★彡 {name} 彡★",
+"꧁༺ {name} ༻꧂",
+"『★』{name}『★』",
+"✧ {name} ✧",
+"❖ {name} ❖"
+]
+
+};
+
+const randomNames=[
+"Shadow","Legend","King","Queen","Warrior",
+"Phantom","Dragon","Hunter","Venom","Titan",
+"Storm","Blaze","Ghost","Knight","Demon",
+"Sniper","Raven","Wolf","Lion","Falcon",
+"Phoenix","Reaper","Ninja","Master","Royal"
+];
+
+function generateNames(){
+
+let input=document.getElementById("nameInput").value.trim();
+
+if(!input){
+alert("Please enter a name or word!");
+return;
+}
+
+let selected=styles[currentCategory];
+
+let output="";
+
+selected.forEach(style=>{
+
+let finalName=style.replace("{name}",input);
+
+output+=`
+<div class="name-card">
+
+<span class="nickname">${finalName}</span>
+
+<button class="copy" onclick="copyName(this)">
+📋 Copy
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("results").innerHTML=output;
+
+}
+
+function copyName(button){
+
+let text=button.parentElement
+.querySelector(".nickname").innerText;
+
+navigator.clipboard.writeText(text);
+
+button.innerText="✅ Copied!";
+
+setTimeout(()=>{
+button.innerText="📋 Copy";
+},1200);
+
+}
+
+function setCategory(category,element){
+
+currentCategory=category;
+
+document.querySelectorAll(".category")
+.forEach(x=>x.classList.remove("active"));
+
+element.classList.add("active");
+
+if(document.getElementById("nameInput").value.trim()){
+generateNames();
+}
+
+}
+
+function randomName(){
+
+let name=randomNames[
+Math.floor(Math.random()*randomNames.length)
+];
+
+document.getElementById("nameInput").value=name;
+
+currentCategory="legendary";
+
+document.querySelectorAll(".category")
+.forEach(x=>x.classList.remove("active"));
+
+document.querySelectorAll(".category")[1]
+.classList.add("active");
+
+generateNames();
+
+}
+
+const alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+let lettersHTML="";
+
+for(let letter of alphabet){
+
+lettersHTML+=`
+<div class="letter"
+onclick="showLetter('${letter}')">
+${letter}
+</div>
+`;
+
+}
+
+document.getElementById("letters").innerHTML=lettersHTML;
+
+const nameLibrary={
+A:["Alpha","Ace","Angel","Apex","Arrow"],
+B:["Blaze","Boss","Beast","Blade","Bunny"],
+C:["Captain","Chaos","Cobra","Crown","Cyber"],
+D:["Demon","Dragon","Dark","Duke","Destroyer"],
+E:["Elite","Eagle","Echo","Eternal","Empire"],
+F:["Falcon","Fire","Fury","Frost","Flash"],
+G:["Ghost","God","Glory","Giant","Gamer"],
+H:["Hunter","Hero","Hawk","Hades","Hyper"],
+I:["Inferno","Ice","Icon","Immortal","Iron"],
+J:["Joker","Jade","Justice","Jungle","Jet"],
+K:["King","Knight","Killer","Karma","Kingdom"],
+L:["Legend","Lion","Lord","Lucky","Lunar"],
+M:["Master","Mafia","Magic","Monster","Mystic"],
+N:["Ninja","Night","Nova","Noble","Nexus"],
+O:["Omega","Oracle","Onyx","Overlord","Orbit"],
+P:["Phoenix","Prince","Phantom","Pro","Predator"],
+Q:["Queen","Quick","Quest","Quantum","Quasar"],
+R:["Raven","Royal","Reaper","Rider","Rogue"],
+S:["Shadow","Sniper","Storm","Savage","Sultan"],
+T:["Titan","Tiger","Thunder","Toxic","Trooper"],
+U:["Ultimate","Ultra","Unity","Urban","Unknown"],
+V:["Venom","Viper","Victory","Vortex","Vampire"],
+W:["Warrior","Wolf","Winner","Wizard","Wild"],
+X:["Xeno","Xtreme","Xavier","Xpress","XForce"],
+Y:["Yeti","Young","Yolo","Yankee","Yellow"],
+Z:["Zero","Zeus","Zombie","Zenith","Zone"]
+};
+
+function showLetter(letter){
+
+let library=document.getElementById("library");
+
+library.classList.add("show");
+
+library.innerHTML=
+`<h3>Names starting with ${letter}</h3>`+
+nameLibrary[letter]
+.map(name=>`<span class="library-card">${name}</span>`)
+.join("");
+
+}
+
+</script>
+
+</body>
+</html>
