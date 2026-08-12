@@ -509,6 +509,27 @@ document.getElementById("results").innerHTML=output;
 
 }
 
+function favoriteName(button){
+
+    let name = button.parentElement
+        .querySelector(".nickname").innerText;
+
+    let favorites =
+        JSON.parse(localStorage.getItem("favorites")) || [];
+
+    if(!favorites.includes(name)){
+        favorites.push(name);
+        localStorage.setItem(
+            "favorites",
+            JSON.stringify(favorites)
+        );
+
+        button.innerText = "❤️ Saved!";
+    } else {
+        button.innerText = "✅ Already Saved";
+    }
+}
+  
 function copyName(button){
 
 let text=button.parentElement
