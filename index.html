@@ -627,34 +627,38 @@ ${letter}
 
 document.getElementById("letters").innerHTML=lettersHTML;
 
-const nameLibrary={
-A:["Alpha","Ace","Angel","Apex","Arrow"],
-B:["Blaze","Boss","Beast","Blade","Bunny"],
-C:["Captain","Chaos","Cobra","Crown","Cyber"],
-D:["Demon","Dragon","Dark","Duke","Destroyer"],
-E:["Elite","Eagle","Echo","Eternal","Empire"],
-F:["Falcon","Fire","Fury","Frost","Flash"],
-G:["Ghost","God","Glory","Giant","Gamer"],
-H:["Hunter","Hero","Hawk","Hades","Hyper"],
-I:["Inferno","Ice","Icon","Immortal","Iron"],
-J:["Joker","Jade","Justice","Jungle","Jet"],
-K:["King","Knight","Killer","Karma","Kingdom"],
-L:["Legend","Lion","Lord","Lucky","Lunar"],
-M:["Master","Mafia","Magic","Monster","Mystic"],
-N:["Ninja","Night","Nova","Noble","Nexus"],
-O:["Omega","Oracle","Onyx","Overlord","Orbit"],
-P:["Phoenix","Prince","Phantom","Pro","Predator"],
-Q:["Queen","Quick","Quest","Quantum","Quasar"],
-R:["Raven","Royal","Reaper","Rider","Rogue"],
-S:["Shadow","Sniper","Storm","Savage","Sultan"],
-T:["Titan","Tiger","Thunder","Toxic","Trooper"],
-U:["Ultimate","Ultra","Unity","Urban","Unknown"],
-V:["Venom","Viper","Victory","Vortex","Vampire"],
-W:["Warrior","Wolf","Winner","Wizard","Wild"],
-X:["Xeno","Xtreme","Xavier","Xpress","XForce"],
-Y:["Yeti","Young","Yolo","Yankee","Yellow"],
-Z:["Zero","Zeus","Zombie","Zenith","Zone"]
-};
+const nameLibrary = {};
+
+const nameParts = [
+"Alpha","Ace","Angel","Apex","Arrow","Blaze","Boss","Beast",
+"Blade","Captain","Chaos","Cobra","Crown","Cyber","Demon",
+"Dragon","Dark","Duke","Elite","Eagle","Echo","Eternal",
+"Falcon","Fire","Fury","Frost","Flash","Ghost","Glory",
+"Giant","Hunter","Hero","Hawk","Hyper","Inferno","Ice",
+"Icon","Immortal","Iron","Joker","Jade","Justice","King",
+"Knight","Killer","Karma","Legend","Lion","Lord","Lucky",
+"Master","Mafia","Magic","Monster","Mystic","Ninja","Night",
+"Nova","Noble","Omega","Oracle","Onyx","Overlord","Phoenix",
+"Prince","Phantom","Predator","Raven","Royal","Reaper",
+"Rider","Rogue","Shadow","Sniper","Storm","Savage","Titan",
+"Tiger","Thunder","Toxic","Warrior","Wolf","Winner","Wizard",
+"Venom","Viper","Victory","Vortex","Yeti","Young","Zeus","Zenith"
+];
+
+for (let letter of alphabet) {
+
+  nameLibrary[letter] = [];
+
+  for (let i = 1; i <= 1000; i++) {
+
+    let part = nameParts[(i - 1) % nameParts.length];
+
+    nameLibrary[letter].push(
+      letter + part + i
+    );
+
+  }
+}
 
 function showLetter(letter){
 
