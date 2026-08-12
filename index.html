@@ -662,15 +662,25 @@ for (let letter of alphabet) {
 
 function showLetter(letter){
 
-let library=document.getElementById("library");
+let library = document.getElementById("library");
 
 library.classList.add("show");
 
-library.innerHTML=
-`<h3>Names starting with ${letter}</h3>`+
-nameLibrary[letter]
-.map(name=>`<span class="library-card">${name}</span>`)
-.join("");
+let names = "";
+
+for(let i = 1; i <= 1000; i++){
+
+  names += `
+    <span class="library-card">
+      ${letter}Legend${i}
+    </span>
+  `;
+
+}
+
+library.innerHTML =
+`<h3>🔥 ${letter} Names — 1000 Names</h3>` +
+names;
 
 }
 
