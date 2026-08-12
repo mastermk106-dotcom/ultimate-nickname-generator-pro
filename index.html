@@ -331,6 +331,16 @@ onkeydown="if(event.key==='Enter') generateNames()"
 
 <h2>✨ Generated Names</h2>
 
+<h3 style="margin:15px 0 10px;">🔍 Search Names</h3>
+
+<input
+  type="text"
+  id="searchInput"
+  placeholder="Search generated names..."
+  oninput="searchNames()"
+  style="width:100%;margin-bottom:15px;"
+>
+
 <div class="results" id="results">
 <div class="empty">
 Enter a name above and press Generate.
@@ -557,7 +567,7 @@ ${letter}
 </div>
 `;
 
-}
+  }
 
 document.getElementById("letters").innerHTML=lettersHTML;
 
@@ -604,6 +614,25 @@ nameLibrary[letter]
 
 }
 
+function searchNames(){
+
+    let search =
+        document.getElementById("searchInput")
+        .value.toLowerCase();
+
+    document.querySelectorAll(".name-card")
+    .forEach(card => {
+
+        let name =
+            card.querySelector(".nickname")
+            .innerText.toLowerCase();
+
+        card.style.display =
+            name.includes(search) ? "flex" : "none";
+
+    });
+}
+  
 </script>
 
 </body>
